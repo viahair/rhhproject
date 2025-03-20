@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, serviceRoleKey);
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(req: Request) {
   try {
@@ -17,7 +16,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "資料儲存成功！" }, { status: 200 });
   } catch {
-    console.error("發生錯誤"); // 不使用 err 變數
+    console.error("發生錯誤");
     return NextResponse.json({ error: "伺服器錯誤" }, { status: 500 });
   }
 }
