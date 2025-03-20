@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 
+// 定義回應資料的類型
 interface ResponseData {
   name: string;
   phone: string;
@@ -9,7 +10,7 @@ interface ResponseData {
 export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [response, setResponse] = useState<ResponseData | null>(null);
+  const [response, setResponse] = useState<ResponseData | null>(null); // 使用具體的 ResponseData 類型
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ export default function Home() {
       body: JSON.stringify({ name, phone }),
     });
 
-    const data: ResponseData = await res.json();
+    const data: ResponseData = await res.json(); // 使用 ResponseData 類型
     setResponse(data); // 顯示返回的資料
   };
 
