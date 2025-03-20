@@ -1,20 +1,14 @@
 "use client";
 import { useState } from "react";
 
-// 定義 Response 介面
-interface ResponseData {
-  name: string;
-  phone: string;
-}
-
 export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [response, setResponse] = useState<ResponseData | null>(null); // 設定具體型別
+  const [response, setResponse] = useState<any>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: {
@@ -24,7 +18,7 @@ export default function Home() {
     });
 
     const data = await res.json();
-    setResponse(data); // 假設返回的資料符合 ResponseData 的型別
+    setResponse(data); // 顯示返回的資料
   };
 
   return (
