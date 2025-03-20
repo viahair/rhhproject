@@ -2,22 +2,17 @@
 import { supabase } from '../../../lib/supabaseClient';
 
 export async function POST(req: Request) {
-  const { name, phone } = await req.json(); // 獲取前端傳來的姓名和電話
+  const { name, phone } = await req.json();
 
-  // 儲存資料到 Supabase
+  // 寫入 Supabase 資料庫
   const { data, error } = await supabase
-    .from("customers") // 假設資料表名為 "customers"
-    .insert([
-      { name, phone }
-    ]);
+    .from('customers')
+    .insert([{ name, phone }]);
 
-    
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 400 });
+    return new Response('Error saving data', { status: 500 });
   }
 
-  // 回傳插入的資料
-  return new Response(JSON.stringify(data), {
-    headers: { "Content-Type": "application/json" },
-  });
+  // 返回資料
+  return new Response(JSON.stringify({ data }), { status: 200 });
 }

@@ -6,9 +6,10 @@ export default function Home() {
   const [phone, setPhone] = useState("");
   const [response, setResponse] = useState<any>(null);
 
+  // 新的 handleSubmit 函數
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: {
@@ -19,9 +20,9 @@ export default function Home() {
 
     const data = await res.json();
     setResponse(data); // 顯示返回的資料
+    console.log("Data received:", data); // 顯示接收到的資料
   };
 
-  
   return (
     <div className="container">
       <h1>預約表單</h1>
