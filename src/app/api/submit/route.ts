@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: "資料儲存成功！" }, { status: 200 });
   } catch {
-    console.error("發生錯誤"); // 沒有使用 err，但仍會印出錯誤
+    console.error("發生錯誤"); // 沒有使用 err，但仍然打印錯誤訊息
     return NextResponse.json({ error: "伺服器錯誤" }, { status: 500 });
   }
 }
