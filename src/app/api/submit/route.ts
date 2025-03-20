@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     // 插入資料到 Supabase 資料庫
     const { data, error } = await supabase
-      .from('your_table_name') // 替換為你的資料表名稱
+      .from('customers') // 替換為你的資料表名稱
       .insert([{ name, phone }]);
 
     // 檢查是否有錯誤
