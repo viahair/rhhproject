@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     // 插入資料到 Supabase 資料庫
     const { data, error } = await supabase
       .from('customers') // 確保這裡是正確的資料表名稱
-      .insert([{ name, phone }]); // 不需要插入 id，因為它是 auto-increment
+      .insert([{ name, phone }]);
 
     // 檢查是否有錯誤
     if (error) {
@@ -23,10 +23,28 @@ export async function POST(request: Request) {
       );
     }
 
-    console.log('Inserted data:', data);
+    // 查詢剛插入的資料
+    const { data: insertedData, error: queryError } = await supabase
+      .from('customers')
+      .select('*')
+      .eq('phone', phone)  // 使用phone作為條件篩選
+      .single();
+
+    if (queryError) {
+      console.error('Supabase query error:', queryError);
+      return new Response(
+        JSON.stringify({
+          message: "Failed to retrieve inserted data",
+          details: queryError.message || 'No error message provided',
+        }),
+        { status: 500 }
+      );
+    }
+
+    console.log('Inserted data:', insertedData);
 
     // 回傳成功插入的資料
-    return new Response(JSON.stringify(data), { status: 200 });
+    return new Response(JSON.stringify(insertedData), { status: 200 });
   } catch (error) {
     console.error('Error in POST handler:', error);
 
