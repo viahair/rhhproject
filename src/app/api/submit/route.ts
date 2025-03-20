@@ -1,4 +1,4 @@
-import { supabase } from "../../lib/supabase";  // 引入 supabase 客戶端
+import { supabase } from "../../../lib/supabase";  // 引入 supabase 客戶端
 
 // 定義回應資料的類型
 interface ResponseData {
