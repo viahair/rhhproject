@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       return new Response(
         JSON.stringify({
           message: "Failed to insert data into Supabase",
-          details: error.message || 'No error message provided', // 顯示錯誤具體信息
+          details: (error as { message: string }).message || 'No error message provided', // 顯示錯誤具體信息
         }),
         { status: 500 }
       );
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     return new Response(
       JSON.stringify({
         message: "An error occurred while processing your request",
-        details: error.message || "Unknown error", // 顯示錯誤訊息
+        details: (error as { message: string }).message || "Unknown error", // 顯示錯誤訊息
       }),
       { status: 500 }
     );
