@@ -22,10 +22,11 @@ export default function Home() {
       },
       body: JSON.stringify({ name, phone }),
     });
-
-    const data: ResponseData = await res.json(); // 使用 ResponseData 類型
-    setResponse(data); // 顯示返回的資料
+  
+    const data = await res.json();
+    setResponse(data); 
   };
+  
 
   return (
     <div className="container">
