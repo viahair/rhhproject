@@ -14,7 +14,10 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // 在發送資料前輸出 log，檢查資料
+    console.log('Sending data to API:', { name, phone });
+
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: {
@@ -22,11 +25,10 @@ export default function Home() {
       },
       body: JSON.stringify({ name, phone }),
     });
-  
-    const data = await res.json();
-    setResponse(data); 
+
+    const data: ResponseData = await res.json(); // 使用 ResponseData 類型
+    setResponse(data); // 顯示返回的資料
   };
-  
 
   return (
     <div className="container">
