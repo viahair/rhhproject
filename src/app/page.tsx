@@ -88,7 +88,7 @@ export default function Home() {
         {/* 顯示日曆 */}
         <div>
           <h3>選擇預約日期</h3>
-          <Calendar onChange={handleDateChange} value={selectedDate} />
+          <Calendar onChange={handleDateChange} value={selectedDate} selectRange={true} />
         </div>
 
         <div>
