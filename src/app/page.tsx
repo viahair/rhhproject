@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Calendar from "react-calendar"; // 引入 react-calendar
+import Calendar, { LooseValue } from "react-calendar"; // 引入 LooseValue
 import "react-calendar/dist/Calendar.css"; // 引入日曆樣式
 
 // 定義回應資料的類型
@@ -13,7 +13,7 @@ export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [response, setResponse] = useState<ResponseData | null>(null); // 使用具體的 ResponseData 類型
-  const [selectedDate, setSelectedDate] = useState<Date | Range<Date> | null>(null); // 更新為支援範圍日期
+  const [selectedDate, setSelectedDate] = useState<LooseValue>(null); // 使用 LooseValue 來支持日期或範圍
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (value: Date | Range<Date> | null) => {
+  const handleDateChange = (value: LooseValue) => {
     setSelectedDate(value); // 更新選擇的日期或範圍
   };
 
