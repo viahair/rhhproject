@@ -44,12 +44,13 @@ export default function Home() {
   const handleDateChange = (value: Date | Date[] | null) => {
     if (value) {
       setSelectedDate(value);
-      // 如果選擇的是單一日期
+
+      // 如果選擇的是單一日期，則更新預約時間
       if (value instanceof Date) {
-        setAppointmentDateTime(value.toISOString()); // 更新預約日期時間
-      } else if (Array.isArray(value)) {
-        // 如果選擇的是日期範圍，可以選擇使用範圍的第一個日期
-        setAppointmentDateTime(value[0]?.toISOString() || ""); // 更新為範圍的開始日期
+        setAppointmentDateTime(value.toISOString()); // 更新為選中的日期
+      } else if (Array.isArray(value) && value[0]) {
+        // 如果選擇的是日期範圍，更新為範圍的第一個日期
+        setAppointmentDateTime(value[0].toISOString());
       }
     }
   };
