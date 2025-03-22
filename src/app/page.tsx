@@ -12,6 +12,9 @@ interface ResponseData {
   service: string;
 }
 
+// 定義 Value 類型，這樣可以處理日期或日期範圍
+type Value = Date | Date[] | null;
+
 export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,8 +23,8 @@ export default function Home() {
   const [service, setService] = useState("");
   const [response, setResponse] = useState<ResponseData | null>(null);
 
-  // 新增狀態來儲存日曆選擇的日期
-  const [selectedDate, setSelectedDate] = useState<Date | Date[] | null>(null);
+  // 使用 Value 類型來儲存選擇的日期
+  const [selectedDate, setSelectedDate] = useState<Value>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +44,7 @@ export default function Home() {
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (value: Date | Date[] | null) => {
+  const handleDateChange = (value: Value) => {
     if (value) {
       setSelectedDate(value);
 
