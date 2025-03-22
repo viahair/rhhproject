@@ -7,93 +7,72 @@ import "react-calendar/dist/Calendar.css"; // 引入日曆樣式
 interface ResponseData {
   name: string;
   phone: string;
-  birthday: string;
-  appointmentDateTime: string;
-  service: string;
 }
-
-// 定義 Value 類型，這樣可以處理日期或日期範圍
-type Value = Date | Date[] | null;
 
 export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [appointmentDateTime, setAppointmentDateTime] = useState("");
-  const [service, setService] = useState("");
-  const [response, setResponse] = useState<ResponseData | null>(null);
-
-  // 使用 Value 類型來儲存選擇的日期
-  const [selectedDate, setSelectedDate] = useState<Value>(null);
+  const [response, setResponse] = useState<ResponseData | null>(null); // 使用具體的 ResponseData 類型
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 儲存選擇的日期
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Sending data to API:", { name, phone, birthday, appointmentDateTime, service });
+    // 在發送資料前輸出 log，檢查資料
+    console.log('Sending data to API:', { name, phone });
 
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, phone, birthday, appointmentDateTime, service }),
+      body: JSON.stringify({ name, phone }),
     });
 
-    const data: ResponseData = await res.json();
-    setResponse(data);
+    const data: ResponseData = await res.json(); // 使用 ResponseData 類型
+    setResponse(data); // 顯示返回的資料
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (value: Value) => {
-    if (value) {
-      setSelectedDate(value);
-
-      // 如果選擇的是單一日期，則更新預約時間
-      if (value instanceof Date) {
-        setAppointmentDateTime(value.toISOString()); // 更新為選中的日期
-      } else if (Array.isArray(value) && value[0]) {
-        // 如果選擇的是日期範圍，更新為範圍的第一個日期
-        setAppointmentDateTime(value[0].toISOString());
-      }
-    }
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
   };
 
   return (
     <div className="container">
       <h1>預約表單</h1>
+
+      {/* 月曆 */}
+      <div>
+        <h3>選擇日期</h3>
+        <Calendar
+          onChange={handleDateChange} // 當選擇日期時更新
+          value={selectedDate} // 顯示當前選擇的日期
+        />
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">姓名</label>
-          <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-        </div>
-        <div>
-          <label htmlFor="phone">電話</label>
-          <input type="text" id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-        </div>
-        <div>
-          <label htmlFor="birthday">生日</label>
-          <input type="date" id="birthday" value={birthday} onChange={(e) => setBirthday(e.target.value)} required />
-        </div>
-        <div>
-          <label htmlFor="appointmentDateTime">預約日期時間</label>
           <input
-            type="datetime-local"
-            id="appointmentDateTime"
-            value={appointmentDateTime}
-            onChange={(e) => setAppointmentDateTime(e.target.value)}
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
         </div>
-        
-        {/* 顯示日曆 */}
         <div>
-          <h3>選擇預約日期</h3>
-          <Calendar onChange={handleDateChange} value={selectedDate} selectRange={true} />
-        </div>
-
-        <div>
-          <label htmlFor="service">服務項目</label>
-          <input type="text" id="service" value={service} onChange={(e) => setService(e.target.value)} required />
+          <label htmlFor="phone">電話</label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
         </div>
         <button type="submit">提交</button>
       </form>
@@ -103,9 +82,6 @@ export default function Home() {
           <h2>收到的資料：</h2>
           <p>姓名: {response.name}</p>
           <p>電話: {response.phone}</p>
-          <p>生日: {response.birthday}</p>
-          <p>預約日期時間: {response.appointmentDateTime}</p>
-          <p>服務項目: {response.service}</p>
         </div>
       )}
     </div>
