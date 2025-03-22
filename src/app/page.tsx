@@ -21,7 +21,7 @@ export default function Home() {
   const [response, setResponse] = useState<ResponseData | null>(null);
 
   // 新增狀態來儲存日曆選擇的日期
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | Date[] | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,10 +41,16 @@ export default function Home() {
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (date: Date | null) => {
-    if (date) {
-      setSelectedDate(date);
-      setAppointmentDateTime(date.toISOString()); // 更新預約日期時間
+  const handleDateChange = (value: Date | Date[] | null) => {
+    if (value) {
+      setSelectedDate(value);
+      // 如果選擇的是單一日期
+      if (value instanceof Date) {
+        setAppointmentDateTime(value.toISOString()); // 更新預約日期時間
+      } else if (Array.isArray(value)) {
+        // 如果選擇的是日期範圍，可以選擇使用範圍的第一個日期
+        setAppointmentDateTime(value[0]?.toISOString() || ""); // 更新為範圍的開始日期
+      }
     }
   };
 
