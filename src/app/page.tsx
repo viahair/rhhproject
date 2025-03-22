@@ -41,9 +41,11 @@ export default function Home() {
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
-    setAppointmentDateTime(date.toISOString()); // 更新預約日期時間
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+      setAppointmentDateTime(date.toISOString()); // 更新預約日期時間
+    }
   };
 
   return (
