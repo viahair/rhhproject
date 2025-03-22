@@ -28,6 +28,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+
+        {/* 自訂的頁面底部 */}
+        <footer className="bg-gray-800 text-white text-center p-4 mt-8">
+          <p>© 2025 RHH, All Rights Reserved.</p>
+        </footer>
       </body>
     </html>
   );
