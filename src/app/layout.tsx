@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Head from "next/head"; // ✅ 使用 Next.js 內建的 Head
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,13 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RHH 預約系統", // 修改標題
-  description: "快速預約，方便又簡單！", // 修改描述
+  title: "RHH 預約系統", 
+  description: "快速預約，方便又簡單！",
   openGraph: {
-    title: "RHH 預約系統", // LINE 預覽的標題
-    description: "快速預約，方便又簡單！", // LINE 預覽的描述
-    url: "https://rhhproject.vercel.app/", // 你的網站 URL
-    siteName: "RHH", // 站點名稱
+    title: "RHH 預約系統",
+    description: "快速預約，方便又簡單！",
+    url: "https://rhhproject.vercel.app/",
+    siteName: "RHH",
     type: "website",
   },
 };
@@ -30,13 +31,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        {/* 這裡的 meta 讓 LINE 可以正確讀取 */}
+    <html lang="zh-TW">
+      <Head> {/* ✅ 使用 Next.js 的 Head */}
         <meta property="og:title" content="RHH 預約系統" />
         <meta property="og:description" content="快速預約，方便又簡單！" />
         <meta property="og:url" content="https://rhhproject.vercel.app/" />
-      </head>
+        <meta property="og:type" content="website" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
