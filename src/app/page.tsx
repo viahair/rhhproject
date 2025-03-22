@@ -13,20 +13,20 @@ export default function Home() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [response, setResponse] = useState<ResponseData | null>(null); // 使用具體的 ResponseData 類型
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null); // 儲存選擇的日期
+  const [selectedDate, setSelectedDate] = useState<Date | Range<Date> | null>(null); // 更新為支援範圍日期
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // 在發送資料前輸出 log，檢查資料
-    console.log('Sending data to API:', { name, phone });
+    console.log("Sending data to API:", { name, phone, selectedDate });
 
     const res = await fetch("/api/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, phone }),
+      body: JSON.stringify({ name, phone, selectedDate }),
     });
 
     const data: ResponseData = await res.json(); // 使用 ResponseData 類型
@@ -34,8 +34,8 @@ export default function Home() {
   };
 
   // 處理日曆日期變更
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+  const handleDateChange = (value: Date | Range<Date> | null) => {
+    setSelectedDate(value); // 更新選擇的日期或範圍
   };
 
   return (
@@ -82,6 +82,7 @@ export default function Home() {
           <h2>收到的資料：</h2>
           <p>姓名: {response.name}</p>
           <p>電話: {response.phone}</p>
+          <p>選擇的日期: {selectedDate ? (Array.isArray(selectedDate) ? selectedDate.join(", ") : selectedDate.toString()) : "未選擇"}</p>
         </div>
       )}
     </div>
