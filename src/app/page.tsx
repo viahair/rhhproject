@@ -14,7 +14,6 @@ export default function Home() {
     <div className="container">
       <h1>預約表單</h1>
 
-      {/* 月曆 */}
       <div>
         <h3>選擇日期</h3>
       <Calendar onChange={onChange} value={value} />
